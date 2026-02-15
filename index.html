@@ -410,6 +410,55 @@ html, body {
   color: var(--rose); font-size: 1.2rem; letter-spacing: 0.5em; opacity: 0.4;
 }
 
+/* ===== VOICE NOTE ===== */
+.voice-note {
+  margin-top: 2.5rem;
+  background: linear-gradient(135deg, rgba(196,69,77,0.08), rgba(212,168,83,0.06));
+  border: 1px solid rgba(212,168,83,0.2);
+  border-radius: 16px; padding: 1.5rem;
+}
+.voice-note-label {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--gold); text-align: center; margin-bottom: 1rem;
+}
+.voice-note-player {
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.vn-play-btn {
+  width: 44px; height: 44px; min-width: 44px; border-radius: 50%;
+  background: var(--gold); border: none; color: var(--dark);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.3s;
+}
+.vn-play-btn:hover { background: var(--gold-light); transform: scale(1.05); }
+.vn-play-btn svg { width: 18px; height: 18px; }
+.vn-wave-wrap {
+  flex: 1; height: 40px; position: relative;
+  border-radius: 8px; overflow: hidden;
+  background: rgba(255,255,255,0.04);
+}
+.vn-progress {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: rgba(212,168,83,0.15);
+  width: 0%; transition: width 0.1s linear;
+  border-radius: 8px;
+}
+.vn-bars {
+  display: flex; align-items: center; height: 100%;
+  gap: 2px; padding: 0 8px; position: relative; z-index: 1;
+}
+.vn-bar {
+  flex: 1; border-radius: 2px; min-width: 2px;
+  background: var(--rose-light); opacity: 0.4;
+  transition: opacity 0.2s;
+}
+.vn-bar.active { opacity: 1; background: var(--gold); }
+.vn-time {
+  font-size: 0.85rem; color: var(--rose-light); min-width: 36px;
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+
 /* ===== MUSIC BUTTON ===== */
 .music-toggle {
   position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 300;
@@ -489,52 +538,184 @@ html, body {
 <!-- ===== SLIDESHOW SCREEN ===== -->
 <div id="slideshow-screen">
   <div class="slideshow-wrap" id="slideshow-wrap">
-    <!--
-      =============================================
-      REPLACE THESE SLIDES WITH YOUR PHOTOS
-      =============================================
-      For each photo, create a slide like:
-      <div class="slide">
-        <div class="slide-image-wrap">
-          <img src="photos/your-photo.jpg" alt="">
-          <div class="slide-caption"><p>Your caption here</p></div>
-        </div>
-      </div>
-    -->
     <div class="slide">
       <div class="slide-image-wrap">
-        <div class="slide-placeholder"><div class="ph-icon">📸</div><span>Photo 1 — Replace with your image</span></div>
-        <div class="slide-caption"><p>Our first adventure together</p></div>
+        <img src="photos/IMG_6839.jpg" alt="">
+        <div class="slide-caption"><p>The day I said forever</p></div>
       </div>
     </div>
     <div class="slide">
       <div class="slide-image-wrap">
-        <div class="slide-placeholder"><div class="ph-icon">💕</div><span>Photo 2 — Replace with your image</span></div>
-        <div class="slide-caption"><p>That perfect sunset</p></div>
+        <img src="photos/IMG_6800.jpg" alt="">
+        <div class="slide-caption"><p>My beautiful bride</p></div>
       </div>
     </div>
     <div class="slide">
       <div class="slide-image-wrap">
-        <div class="slide-placeholder"><div class="ph-icon">✨</div><span>Photo 3 — Replace with your image</span></div>
-        <div class="slide-caption"><p>Laughing until we cried</p></div>
+        <img src="photos/IMG_0423.jpg" alt="">
+        <div class="slide-caption"><p>Made for each other</p></div>
       </div>
     </div>
     <div class="slide">
       <div class="slide-image-wrap">
-        <div class="slide-placeholder"><div class="ph-icon">🥰</div><span>Photo 4 — Replace with your image</span></div>
-        <div class="slide-caption"><p>My favorite smile</p></div>
+        <img src="photos/IMG_4561.JPG" alt="">
+        <div class="slide-caption"><p>Our roots, our love</p></div>
       </div>
     </div>
     <div class="slide">
       <div class="slide-image-wrap">
-        <div class="slide-placeholder"><div class="ph-icon">🌹</div><span>Photo 5 — Replace with your image</span></div>
-        <div class="slide-caption"><p>The day I knew</p></div>
+        <img src="photos/IMG_8547.jpg" alt="">
+        <div class="slide-caption"><p>Beauty beyond the mountains</p></div>
       </div>
     </div>
     <div class="slide">
       <div class="slide-image-wrap">
-        <div class="slide-placeholder"><div class="ph-icon">💖</div><span>Photo 6 — Replace with your image</span></div>
-        <div class="slide-caption"><p>Us being us</p></div>
+        <img src="photos/2AA1B462-0EB6-4BB2-851E-8FC90EFA6CB8.JPG" alt="">
+        <div class="slide-caption"><p>Where it all began</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_0991.JPG" alt="">
+        <div class="slide-caption"><p>Exploring our city, hand in hand</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_6405.JPG" alt="">
+        <div class="slide-caption"><p>On top of the world with you</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_8339.jpg" alt="">
+        <div class="slide-caption"><p>Together, we can conquer anything</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_7241.jpg" alt="">
+        <div class="slide-caption"><p>Through every season</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_7261.jpg" alt="">
+        <div class="slide-caption"><p>The best views are shared with you</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/DSC01304.JPG" alt="">
+        <div class="slide-caption"><p>From Nepal to Thailand, love travels with us</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_8677.jpg" alt="">
+        <div class="slide-caption"><p>Lost in temples and in you</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_8708.jpg" alt="">
+        <div class="slide-caption"><p>You light up every city</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_8741.jpg" alt="">
+        <div class="slide-caption"><p>Finding paradise together</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_8753.jpg" alt="">
+        <div class="slide-caption"><p>The sweetest moments</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_8777.jpg" alt="">
+        <div class="slide-caption"><p>Sun, sand, and us</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_8979.jpg" alt="">
+        <div class="slide-caption"><p>Sailing through life with you</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_9053.jpg" alt="">
+        <div class="slide-caption"><p>Always in sync</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_8883.jpg" alt="">
+        <div class="slide-caption"><p>Every adventure is better with you</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_9281.jpg" alt="">
+        <div class="slide-caption"><p>Even the nights shine around you</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_6101.jpg" alt="">
+        <div class="slide-caption"><p>Simple joys, biggest smiles</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_6225.JPG" alt="">
+        <div class="slide-caption"><p>Every day is an adventure</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_6132.JPG" alt="">
+        <div class="slide-caption"><p>Home is wherever you are</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_6698.jpg" alt="">
+        <div class="slide-caption"><p>Our kind of perfect</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_8403.jpg" alt="">
+        <div class="slide-caption"><p>Through highlands and heartbeats</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_6681.jpg" alt="">
+        <div class="slide-caption"><p>Every moment with you is special</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_6597.PNG" alt="">
+        <div class="slide-caption"><p>The smile that stole my heart</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_6729.jpg" alt="">
+        <div class="slide-caption"><p>My hand, yours — always</p></div>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="slide-image-wrap">
+        <img src="photos/IMG_9337.jpg" alt="">
+        <div class="slide-caption"><p>Growing in love, forever</p></div>
       </div>
     </div>
   </div>
@@ -559,6 +740,25 @@ html, body {
       </div>
       <div class="letter-signoff">Forever Yours ❤️</div>
     </div>
+
+    <!-- Voice Note -->
+    <div class="voice-note">
+      <div class="voice-note-label">A message from my heart</div>
+      <div class="voice-note-player">
+        <button class="vn-play-btn" id="vn-play-btn">
+          <svg class="vn-icon-play" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,3 20,12 6,21"/></svg>
+          <svg class="vn-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+        </button>
+        <div class="vn-wave-wrap">
+          <div class="vn-progress" id="vn-progress"></div>
+          <div class="vn-bars" id="vn-bars"></div>
+        </div>
+        <span class="vn-time" id="vn-time">0:00</span>
+      </div>
+      <audio id="voice-note" preload="auto">
+        <source src="voicenote.mp3" type="audio/mpeg">
+      </audio>
+    </div>
   </div>
   <div class="footer-hearts">♥ ♥ ♥ ♥ ♥</div>
 </div>
@@ -571,14 +771,8 @@ html, body {
 </button>
 
 <!-- ===== BACKGROUND MUSIC ===== -->
-<!--
-  =============================================
-  ADD YOUR MUSIC FILE HERE
-  Put your .mp3 file in the same folder and update the src
-  =============================================
--->
 <audio id="bg-music" loop preload="auto">
-  <source src="music.mp3" type="audio/mpeg">
+  <source src="music_2026-02-07T03-50-46-054Z.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -816,6 +1010,87 @@ musicBtn.addEventListener('click', () => {
       window.scrollTo(0, 0);
     }, 800);
   }
+})();
+
+// ==========================================
+// VOICE NOTE PLAYER
+// ==========================================
+(function() {
+  const vn = document.getElementById('voice-note');
+  const btn = document.getElementById('vn-play-btn');
+  const progress = document.getElementById('vn-progress');
+  const timeEl = document.getElementById('vn-time');
+  const barsEl = document.getElementById('vn-bars');
+  const playIcon = btn.querySelector('.vn-icon-play');
+  const pauseIcon = btn.querySelector('.vn-icon-pause');
+  let playing = false;
+
+  // Generate waveform bars
+  const barCount = 50;
+  const barHeights = [];
+  for (let i = 0; i < barCount; i++) {
+    const h = 20 + Math.random() * 70;
+    barHeights.push(h);
+    const bar = document.createElement('div');
+    bar.className = 'vn-bar';
+    bar.style.height = h + '%';
+    barsEl.appendChild(bar);
+  }
+
+  function formatTime(s) {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  function updateProgress() {
+    if (!vn.duration) return;
+    const pct = (vn.currentTime / vn.duration) * 100;
+    progress.style.width = pct + '%';
+    timeEl.textContent = formatTime(vn.currentTime);
+    // Highlight active bars
+    const bars = barsEl.children;
+    const activeIdx = Math.floor((vn.currentTime / vn.duration) * barCount);
+    for (let i = 0; i < bars.length; i++) {
+      bars[i].classList.toggle('active', i <= activeIdx);
+    }
+    if (playing) requestAnimationFrame(updateProgress);
+  }
+
+  btn.addEventListener('click', () => {
+    if (playing) {
+      vn.pause();
+      playing = false;
+      playIcon.style.display = '';
+      pauseIcon.style.display = 'none';
+    } else {
+      vn.play().then(() => {
+        playing = true;
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = '';
+        updateProgress();
+      }).catch(() => {});
+    }
+  });
+
+  vn.addEventListener('ended', () => {
+    playing = false;
+    playIcon.style.display = '';
+    pauseIcon.style.display = 'none';
+    progress.style.width = '0%';
+    const bars = barsEl.children;
+    for (let i = 0; i < bars.length; i++) bars[i].classList.remove('active');
+    timeEl.textContent = '0:00';
+  });
+
+  // Click on waveform to seek
+  barsEl.parentElement.addEventListener('click', (e) => {
+    if (!vn.duration) return;
+    const rect = barsEl.parentElement.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    vn.currentTime = pct * vn.duration;
+    updateProgress();
+  });
 })();
 </script>
 </body>
