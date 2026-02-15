@@ -881,15 +881,23 @@ const musicBtn = document.getElementById('music-toggle');
 let musicPlaying = false;
 
 function startMusic() {
+  music.volume = 0;
   music.play().then(() => {
     musicPlaying = true;
     musicBtn.classList.remove('paused');
     musicBtn.style.display = 'flex';
+    // Fade in over 1s to avoid loud burst
+    let vol = 0;
+    const fadeIn = setInterval(() => {
+      vol += 0.02;
+      if (vol >= music._targetVol) { music.volume = music._targetVol; clearInterval(fadeIn); }
+      else { music.volume = vol; }
+    }, 30);
   }).catch(() => {
-    // Autoplay blocked — show button for manual start
     musicBtn.style.display = 'flex';
   });
 }
+music._targetVol = 1.0;
 
 musicBtn.addEventListener('click', () => {
   if (musicPlaying) {
@@ -971,13 +979,21 @@ musicBtn.addEventListener('click', () => {
       slides[0].classList.add('active');
       autoTimer = setInterval(next, AUTO_DELAY);
       // Start music at low volume, then auto-play voice note over it
+      music._targetVol = 0.05;
       startMusic();
       setTimeout(() => {
         const vn = document.getElementById('voice-note');
-        music.volume = 0.15;
+        music.volume = 0.05;
         vn.play().catch(() => {});
         vn.addEventListener('ended', () => {
-          music.volume = 1.0;
+          music._targetVol = 1.0;
+          // Fade music back up
+          let vol = music.volume;
+          const fadeUp = setInterval(() => {
+            vol += 0.02;
+            if (vol >= 1.0) { music.volume = 1.0; clearInterval(fadeUp); }
+            else { music.volume = vol; }
+          }, 30);
         }, { once: true });
       }, 1500);
     }, 800);
