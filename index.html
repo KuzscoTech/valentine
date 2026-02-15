@@ -360,6 +360,19 @@ html, body {
 }
 #letter-screen.visible { display: block; }
 
+/* Back to memories button */
+.back-btn {
+  position: fixed; top: 1.5rem; left: 1.5rem; z-index: 15;
+  padding: 0.5rem 1.2rem;
+  font-family: 'Cormorant Garamond', serif; font-size: 0.85rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); background: rgba(26,10,14,0.5);
+  border: 1px solid rgba(212,168,83,0.2); border-radius: 50px;
+  cursor: pointer; transition: all 0.3s;
+  backdrop-filter: blur(8px);
+}
+.back-btn:hover { color: var(--cream); border-color: var(--gold); }
+
 .letter-hero {
   padding: 5rem 1.5rem 2rem; text-align: center; position: relative;
 }
@@ -703,6 +716,7 @@ html, body {
 
 <!-- ===== LETTER SCREEN ===== -->
 <div id="letter-screen">
+  <button class="back-btn" id="back-to-memories">← Memories</button>
   <div class="letter-hero">
     <h2>A Letter From My Heart</h2>
   </div>
@@ -1016,6 +1030,22 @@ musicBtn.addEventListener('click', () => {
       window.scrollTo(0, 0);
     }, 800);
   }
+
+  // Back to memories from letter (no music/voice, just photos)
+  document.getElementById('back-to-memories').addEventListener('click', () => {
+    // Stop all audio
+    music.pause(); musicPlaying = false;
+    musicBtn.classList.add('paused');
+    const vn = document.getElementById('voice-note');
+    if (!vn.paused) { vn.pause(); vn.currentTime = 0; }
+
+    // Hide letter, show slideshow
+    document.getElementById('letter-screen').classList.remove('visible');
+    const ss = document.getElementById('slideshow-screen');
+    ss.classList.add('visible');
+    goTo(0);
+    // No auto-advance, let her browse freely
+  });
 })();
 
 // ==========================================
