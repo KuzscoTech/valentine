@@ -472,6 +472,51 @@ html, body {
   text-align: right; font-variant-numeric: tabular-nums;
 }
 
+/* ===== SLIDESHOW INTRO OVERLAY ===== */
+.slideshow-intro {
+  position: absolute; inset: 0; z-index: 10;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: #000;
+  opacity: 1; transition: opacity 1s ease;
+}
+.slideshow-intro.fade-out { opacity: 0; pointer-events: none; }
+.intro-number {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(5rem, 18vw, 10rem);
+  font-weight: 700;
+  color: var(--gold);
+  opacity: 0;
+  text-shadow: 0 0 60px rgba(212,168,83,0.4);
+  animation: introCountIn 1.2s ease-out 0.3s forwards;
+}
+.intro-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+  color: var(--rose-light);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: introFadeUp 1s ease-out 0.9s forwards;
+}
+.intro-sub {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  color: var(--gold-light);
+  margin-top: 0.8rem;
+  opacity: 0;
+  animation: introFadeUp 1s ease-out 1.4s forwards;
+}
+@keyframes introCountIn {
+  0% { opacity: 0; transform: scale(0.3) translateY(20px); }
+  60% { opacity: 1; transform: scale(1.05) translateY(-5px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes introFadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ===== MUSIC BUTTON ===== */
 .music-toggle {
   position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 300;
@@ -550,6 +595,11 @@ html, body {
 
 <!-- ===== SLIDESHOW SCREEN ===== -->
 <div id="slideshow-screen">
+  <div class="slideshow-intro" id="slideshow-intro">
+    <div class="intro-number">26</div>
+    <div class="intro-label">Memories for 2026</div>
+    <div class="intro-sub">One for every year ahead</div>
+  </div>
   <div class="slideshow-wrap" id="slideshow-wrap">
     <div class="slide">
       <div class="slide-image-wrap">
@@ -990,26 +1040,36 @@ musicBtn.addEventListener('click', () => {
       s.classList.remove('visible');
       const ss = document.getElementById('slideshow-screen');
       ss.classList.add('visible');
-      slides[0].classList.add('active');
-      autoTimer = setInterval(next, AUTO_DELAY);
-      // Start music at low volume, then auto-play voice note over it
-      music._targetVol = 0.05;
-      startMusic();
+      // Show intro overlay first, then start slides after it fades
+      const intro = document.getElementById('slideshow-intro');
+      intro.style.display = '';
+      intro.classList.remove('fade-out');
       setTimeout(() => {
-        const vn = document.getElementById('voice-note');
-        music.volume = 0.05;
-        vn.play().catch(() => {});
-        vn.addEventListener('ended', () => {
-          music._targetVol = 1.0;
-          // Fade music back up
-          let vol = music.volume;
-          const fadeUp = setInterval(() => {
-            vol += 0.02;
-            if (vol >= 1.0) { music.volume = 1.0; clearInterval(fadeUp); }
-            else { music.volume = vol; }
-          }, 30);
-        }, { once: true });
-      }, 1500);
+        // Fade out the intro overlay
+        intro.classList.add('fade-out');
+        slides[0].classList.add('active');
+        autoTimer = setInterval(next, AUTO_DELAY);
+        // Start music at low volume, then auto-play voice note over it
+        music._targetVol = 0.05;
+        startMusic();
+        setTimeout(() => {
+          const vn = document.getElementById('voice-note');
+          music.volume = 0.05;
+          vn.play().catch(() => {});
+          vn.addEventListener('ended', () => {
+            music._targetVol = 1.0;
+            // Fade music back up
+            let vol = music.volume;
+            const fadeUp = setInterval(() => {
+              vol += 0.02;
+              if (vol >= 1.0) { music.volume = 1.0; clearInterval(fadeUp); }
+              else { music.volume = vol; }
+            }, 30);
+          }, { once: true });
+        }, 1500);
+        // Remove intro from DOM after fade completes
+        setTimeout(() => { intro.style.display = 'none'; }, 1200);
+      }, 3000); // Show intro text for 3 seconds
     }, 800);
   });
 
