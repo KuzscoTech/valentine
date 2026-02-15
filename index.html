@@ -708,13 +708,15 @@ html, body {
   </div>
   <div class="letter-section">
     <div class="letter-container">
-      <div class="letter-greeting">My Dearest,</div>
+      <div class="letter-greeting">Meri Maya,</div>
       <div class="letter-body">
-        <p>This is where your heartfelt letter goes. Write from the heart — tell her what she means to you, your favorite memories together, and your hopes for the future.</p>
-        <p>You can write as many paragraphs as you'd like. Each one wrapped in a p tag will be nicely spaced.</p>
-        <p>Replace this placeholder text with your own beautiful words. She's going to love it. 💕</p>
+        <p>Maile timilai hami duita ko lagi jati garchau, tes sabai appreciate garchu. Kahile maile alikati karraye hola, tara timile teti pani tesari ta lieneu. Maile bhaneko kura haru bujchau, ani tesko lagi ma dherai thankful chu. Maile dherai phone nagareko belama pani, timile alikati ta angry huncha hola, tara timile tesari ta dekhaudaina malai. Tyo pani maile appreciate garchu—ki timi jasto manche mero life ma chhau.</p>
+        <p>Maile sochhe thiye ki manche le complain ta garchan hola bihe ma garepachi, tara timile malai only support matra diyo chau. Maile jati bhancho, timi bujna ta jastai garchau. Maile timilai yesto letter jati ta lekhna sakdina hola, haina, tara maile yesto bhanda, timilai alikati bhani ni man ma khusi layo bhane, mero lagi teti bhaye pugcha.</p>
+        <p>Bhabisya ma maile jati bhanna parne hola esto ki maile timlai maya garchu bhanera, tara maile bhani na bhani pani tesari naramro ta na socha hai. Kina ki bhanda feri, life ma future ma gaya pachi, maile timro lagi matra maya garne ho, haina, hamesha ka lagi.</p>
+        <p>Timi ko emotional stability ra timro values, sabai ma grateful chu ki timi mero life ma chhau, ani ma timilai maya garchu bhanera. Ra ma baaki jindagi ma pani timilai nai maya garchu, haina. Te bhaye ra tesai maile future ma bhani na bhani, testo naramro le ta na leu hai.</p>
+        <p>Happy Valentine's Day! Dila ta bhayo hola, tara I hope yo kuraharu le alikati timro man lai shanti din sakcha. I love you. I love you very much, mero maya.</p>
       </div>
-      <div class="letter-signoff">Forever Yours ❤️</div>
+      <div class="letter-signoff">Sadhai Timro ❤️</div>
     </div>
 
     <!-- Voice Note -->
@@ -968,13 +970,25 @@ musicBtn.addEventListener('click', () => {
       ss.classList.add('visible');
       slides[0].classList.add('active');
       autoTimer = setInterval(next, AUTO_DELAY);
-      // Start music
+      // Start music at low volume, then auto-play voice note over it
       startMusic();
+      setTimeout(() => {
+        const vn = document.getElementById('voice-note');
+        music.volume = 0.15;
+        vn.play().catch(() => {});
+        vn.addEventListener('ended', () => {
+          music.volume = 1.0;
+        }, { once: true });
+      }, 1500);
     }, 800);
   });
 
   function showLetter() {
     clearInterval(autoTimer);
+    // Stop voice note if still playing during slideshow, restore music volume
+    const vn = document.getElementById('voice-note');
+    if (!vn.paused) { vn.pause(); vn.currentTime = 0; }
+    music.volume = 1.0;
     const ss = document.getElementById('slideshow-screen');
     ss.style.opacity = '0';
     ss.style.transition = 'opacity 0.8s ease';
