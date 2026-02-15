@@ -88,11 +88,30 @@ html, body {
 }
 
 .gift-box-3d {
+  --box-size: clamp(200px, 50vw, 280px);
+  --half: calc(var(--box-size) / 2);
   width: 100%; height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transform: rotateX(10deg) rotateY(-15deg);
+  transform: rotateX(12deg) rotateY(-20deg);
   transition: transform 0.6s ease;
+  animation: giftFloat 3s ease-in-out infinite;
+}
+@keyframes giftFloat {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -8px; }
+}
+
+/* Ground shadow */
+.gift-shadow {
+  position: absolute; bottom: -18px; left: 10%; width: 80%; height: 20px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.35), transparent 70%);
+  border-radius: 50%;
+  animation: shadowPulse 3s ease-in-out infinite;
+}
+@keyframes shadowPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.9); opacity: 0.7; }
 }
 
 /* Box body */
@@ -108,27 +127,27 @@ html, body {
 .box-front {
   width: 100%; height: 100%;
   background: linear-gradient(180deg, #c0392b, #a93226);
-  transform: translateZ(calc(clamp(200px, 50vw, 280px) / 2));
+  transform: translateZ(var(--half));
 }
 .box-back {
   width: 100%; height: 100%;
   background: linear-gradient(180deg, #a93226, #922b21);
-  transform: translateZ(calc(clamp(200px, 50vw, 280px) / -2)) rotateY(180deg);
+  transform: translateZ(calc(var(--half) * -1)) rotateY(180deg);
 }
 .box-left {
-  width: clamp(200px, 50vw, 280px); height: 100%;
-  background: linear-gradient(180deg, #b5332a, #9e2c24);
+  width: var(--box-size); height: 100%;
+  background: linear-gradient(180deg, #9e2c24, #8b2520);
   transform: rotateY(-90deg) translateZ(0px);
   transform-origin: left center;
 }
 .box-right {
-  width: clamp(200px, 50vw, 280px); height: 100%;
+  width: var(--box-size); height: 100%;
   background: linear-gradient(180deg, #b5332a, #9e2c24);
   transform: rotateY(90deg) translateZ(0px);
   transform-origin: right center;
 }
 .box-bottom {
-  width: 100%; height: clamp(200px, 50vw, 280px);
+  width: 100%; height: var(--box-size);
   background: #922b21;
   transform: rotateX(-90deg) translateZ(0px);
   transform-origin: bottom center;
@@ -164,6 +183,20 @@ html, body {
 .lid-top {
   width: 100%; height: 100%;
   background: linear-gradient(135deg, #d44, #c0392b);
+}
+.lid-front {
+  width: 100%; height: 20px;
+  background: linear-gradient(180deg, #c0392b, #a93226);
+  transform: rotateX(-90deg);
+  transform-origin: bottom center;
+  bottom: 0; position: absolute;
+}
+.lid-right {
+  width: 20px; height: 100%;
+  background: linear-gradient(180deg, #b5332a, #9e2c24);
+  transform: rotateY(90deg);
+  transform-origin: right center;
+  right: 0; position: absolute;
 }
 .lid-top .ribbon-h { top: calc(50% - 9px); }
 .lid-top .ribbon-v { left: calc(50% - 9px); }
@@ -571,6 +604,8 @@ html, body {
             <div class="bow-center"></div>
           </div>
         </div>
+        <div class="lid-face lid-front"></div>
+        <div class="lid-face lid-right"></div>
       </div>
       <!-- Body -->
       <div class="box-body">
@@ -578,8 +613,15 @@ html, body {
           <div class="ribbon-h"><div class="ribbon-shine"></div></div>
           <div class="ribbon-v"><div class="ribbon-shine"></div></div>
         </div>
+        <div class="box-face box-back"></div>
+        <div class="box-face box-right">
+          <div class="ribbon-v"><div class="ribbon-shine"></div></div>
+        </div>
+        <div class="box-face box-left"></div>
+        <div class="box-face box-bottom"></div>
       </div>
     </div>
+    <div class="gift-shadow"></div>
   </div>
 
   <p class="tap-prompt">Tap to open</p>
@@ -853,10 +895,10 @@ html, body {
     const r = scene.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
     const y = (e.clientY - r.top) / r.height - 0.5;
-    box3d.style.transform = `rotateX(${10 - y * 15}deg) rotateY(${-15 + x * 15}deg)`;
+    box3d.style.transform = `rotateX(${12 - y * 15}deg) rotateY(${-20 + x * 15}deg)`;
   });
   scene.addEventListener('mouseleave', () => {
-    if (!opened) box3d.style.transform = 'rotateX(10deg) rotateY(-15deg)';
+    if (!opened) box3d.style.transform = 'rotateX(12deg) rotateY(-20deg)';
   });
 
   // Tap/click to open
@@ -870,6 +912,7 @@ html, body {
     // Open the lid
     lid.classList.add('open');
     glow.classList.add('active');
+    box3d.style.animation = 'none';
     box3d.style.transform = 'rotateX(5deg) rotateY(0deg)';
 
     // Transition to surprise screen
